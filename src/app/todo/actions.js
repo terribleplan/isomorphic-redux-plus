@@ -7,28 +7,29 @@ import {
 import {
   getTodo,
 } from './selectors';
+import { injected } from 'lib/promiseMiddleware';
 
-export const loadTodos = () => ({
-  type: LOAD_TODOS,
-  role: 'primary',
-  promise: ({ client }) => client.get('/todos'),
-});
+export const loadTodos = () => injected(
+  LOAD_TODOS,
+  ({ client }) => client.get('/todos'),
+  { role: 'primary' }
+);
 
-export const createTodo = (text) => ({
-  type: CREATE_TODO,
-  promise: ({ client }) => client.post('/todos', { text, dateCreated: Date.now() }),
-});
+export const createTodo = (text) => injected(
+  CREATE_TODO,
+  ({ client }) => client.post('/todos', { text, dateCreated: Date.now() }),
+);
 
 export const editTodo = (id, text) => (dispatch, getState) => {
   const todo = getTodo(id)(getState());
-  dispatch({
-    type: EDIT_TODO,
-    promise: ({ client }) => client.put(`/todos/${id}`, { ...todo, id, text }),
-  });
+  dispatch(injected(
+    EDIT_TODO,
+    ({ client }) => client.put(`/todos/${id}`, { ...todo, id, text }),
+  ));
 };
 
-export const deleteTodo = (id) => ({
-  type: DELETE_TODO,
-  promise: ({ client }) => client.delete(`/todos/${id}`),
-  id,
-});
+export const deleteTodo = (id) => injected(
+  DELETE_TODO,
+  ({ client }) => client.delete(`/todos/${id}`),
+  { id },
+);
