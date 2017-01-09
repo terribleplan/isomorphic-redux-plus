@@ -1,5 +1,4 @@
-import promiseMiddleware from 'lib/promiseMiddleware';
-import { createRequest } from 'lib/promiseMiddleware';
+import promiseMiddleware, { createRequest } from 'lib/promiseMiddleware';
 
 describe('promiseMiddleware', () => {
   let next;
