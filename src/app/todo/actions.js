@@ -10,7 +10,7 @@ import {
 
 export const loadTodos = () => createRequest(LOAD_TODOS, {
   method: 'GET',
-  url: '/todo',
+  url: '/todos',
 }, { role: 'primary' });
 
 export const createTodo = (text) => createRequest(CREATE_TODO, {
