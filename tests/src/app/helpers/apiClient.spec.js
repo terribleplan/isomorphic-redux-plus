@@ -1,57 +1,61 @@
-import MockAdapter from 'axios-mock-adapter';
-import createApi from 'helpers/apiClient';
+import { transformResponse, transformRequest } from 'helpers/apiClient';
 
 describe('Api Configuration', () => {
   const testApiBaseUrl = 'testApiBaseUrl';
-  const testHeader = { header: 'HEADER' };
-  let client;
-  let mock;
+  const testRequestConfig = { headers: { header: 'HEADER' } };
 
-  beforeEach(() => {
-    client = createApi(testApiBaseUrl, { headers: testHeader });
-    mock = new MockAdapter(client);
-    mock.onGet(/.*/).reply((conf) => ([200, conf]));
-  });
-
-  afterEach(() => {
-    mock.restore();
-  });
-
-  describe('when a url not begining with "/" is called', () => {
-    const endpoint = Math.random().toString(36).substr(7);
-    let headers;
+  describe('transformRequest', () => {
+    let config;
+    let expected;
     let url;
+    let transformed;
+    const underTest = transformRequest(testApiBaseUrl, testRequestConfig);
 
-    beforeEach(() => client.get(endpoint).then((res) => {
-      headers = res.data.headers;
-      url = res.data.url;
-    }));
+    describe('when config.url does not begin with "/"', () => {
+      beforeEach(() => {
+        url = Math.random().toString(36).substr(7);
+        config = { url };
+        expected = { ...config };
+        transformed = underTest(config);
+      });
 
-    it('should pass the unaltered url through', () => {
-      expect(url).to.equal(endpoint);
+      it('should not transform the response', () => {
+        expect(transformed).to.deep.equal(expected);
+      });
+
+      it('should not return a new object', () => {
+        expect(transformed).to.equal(config);
+      });
     });
 
-    it('should not modify request headers', () => {
-      expect(headers).to.not.have.property('header');
+    describe('when config.url begins with "/"', () => {
+      beforeEach(() => {
+        url = '/url';
+        config = { url, headers: { originalHeader: 'originalHeader' } };
+        transformed = underTest(config);
+      });
+
+      it('should add prepend the configured base url', () => {
+        expect(transformed.url).to.equal(testApiBaseUrl + url);
+      });
+
+      it('should concat injected headers with request headers', () => {
+        expect(transformed.headers).to.deep.equal({
+          ...config.headers,
+          ...testRequestConfig.headers,
+        });
+      });
+
+      it('should not mutate config', () => {
+        expect(transformed).to.not.equal(config);
+      });
     });
   });
 
-  describe('when a url begining with "/" is called', () => {
-    const endpoint = '/endpoint';
-    let headers;
-    let url;
-
-    beforeEach(() => client.get(endpoint).then((res) => {
-      headers = res.data.headers;
-      url = res.data.url;
-    }));
-
-    it('should prepend the configured base url', () =>
-      expect(url).to.equal(testApiBaseUrl + endpoint)
-    );
-
-    it('should attach the configured headers to the request', () =>
-      expect(headers).to.have.property('header', 'HEADER')
-    );
+  describe('transform Response', () => {
+    it('should pull off data', () => {
+      const data = Math.random();
+      expect(transformResponse({ data })).to.equal(data);
+    });
   });
 });
