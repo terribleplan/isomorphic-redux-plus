@@ -9,8 +9,10 @@ import {
 } from './types';
 
 export default handleActions({
-  [LOAD_TODOS]: (state, { payload }) =>
-    Map(payload.map((todo) => [todo.id, Map(todo)])),
+  [LOAD_TODOS]: (state, action) => {
+    const { payload, error } = action;
+    return (error ? state : Map(payload.map((todo) => [todo.id, Map(todo)])));
+  },
 
   [CREATE_TODO]: (state, { payload }) =>
     state.set(payload.id, Map(payload)),

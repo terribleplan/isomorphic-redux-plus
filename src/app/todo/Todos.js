@@ -8,9 +8,7 @@ import TodosView from './TodosView';
 import * as todoActions from './actions';
 import { todosByDate, isEditable } from './selectors';
 
-@asyncConnect([{
-  promise: ({ store }) => store.dispatch(todoActions.loadTodos()),
-}])
+@asyncConnect(() => todoActions.loadTodos())
 
 @connect(select({
   todos: todosByDate,

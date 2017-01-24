@@ -20,9 +20,9 @@ import { getAbout, getShowKitten } from './selectors';
 
 
 const wrap = compose(
-  asyncConnect([{
-    promise: ({ store: { dispatch } }) => dispatch(aboutActions.loadAbout()),
-  }]),
+  asyncConnect(() =>
+    aboutActions.loadAbout()
+  ),
 
   connect(select({
     about: getAbout,

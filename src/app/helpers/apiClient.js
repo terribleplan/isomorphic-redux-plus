@@ -21,7 +21,7 @@ export default function createApi(prefix, req = {}) {
   const client = axios.create();
 
   client.interceptors.request.use(transformRequest(prefix, req));
-  client.interceptors.response.use(transformResponse);
+  client.interceptors.response.use(transformResponse, (err) => Promise.reject(err.response));
 
   return client;
 }

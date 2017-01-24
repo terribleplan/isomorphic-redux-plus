@@ -9,11 +9,10 @@ import {
 } from './types';
 
 
-export const loadTodos = () => ({ client, store }) => ({
+export const loadTodos = () => ({ client, store: { dispatch } }) => ({
   type: LOAD_TODOS,
-  payload: client.get('/todos').catch((err) => {
-    store.dispatch(setStatus(err.response.status));
-  }),
+  payload: client.get('/todos').catch(({ status }) =>
+    dispatch(setStatus(status))),
 });
 
 export const createTodo = (text) => ({ client }) => ({
