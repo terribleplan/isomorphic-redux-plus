@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { asyncConnect } from 'redux-connect';
 import { createStructuredSelector as select } from 'reselect';
@@ -17,17 +18,20 @@ import kitten from './kitten.jpg';
 import * as aboutActions from './actions';
 import { getAbout, getShowKitten } from './selectors';
 
-@asyncConnect([{
-  promise: ({ store: { dispatch } }) => dispatch(aboutActions.loadAbout()),
-}])
 
-@connect(select({
-  about: getAbout,
-  showKitten: getShowKitten,
-}), aboutActions)
+const wrap = compose(
+  asyncConnect([{
+    promise: ({ store: { dispatch } }) => dispatch(aboutActions.loadAbout()),
+  }]),
+
+  connect(select({
+    about: getAbout,
+    showKitten: getShowKitten,
+  }), aboutActions)
+);
 
 // eslint-disable-next-line react/prefer-stateless-function
-export default class About extends React.Component {
+export class About extends React.Component {
   static propTypes = {
     about: PropTypes.any.isRequired,
     showKitten: PropTypes.bool.isRequired,
@@ -59,3 +63,5 @@ export default class About extends React.Component {
     );
   }
 }
+
+export default wrap(About);
