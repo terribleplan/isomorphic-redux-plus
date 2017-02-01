@@ -55,16 +55,16 @@
       }
     },
     "test:unit": {
-      "command": "karma start internals/test/karma.conf.js --single-run",
+      "command": "mocha --require babel-register --require internals/test/unit.conf.js tests/**/*.spec.js",
       "env": {
-        "TEST_TYPE": "unit",
-        "NODE_ENV": "test"
+        "PORT": 3000,
+        "NODE_ENV": "test",
+        "NODE_PATH": "./src/app"
       }
     },
     "test:browser": {
       "command": "karma start internals/test/karma.conf.js --single-run",
       "env": {
-        "TEST_TYPE": "browser",
         "NODE_ENV": "test"
       }
     },
