@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { asyncConnect } from 'redux-connect';
+import { prefetch } from '@isogon/prefetch';
 import { createStructuredSelector as select } from 'reselect';
 
 import TodosForm from './TodosForm';
@@ -8,16 +9,16 @@ import TodosView from './TodosView';
 import * as todoActions from './actions';
 import { todosByDate, isEditable } from './selectors';
 
-@asyncConnect([{
-  promise: ({ store }) => store.dispatch(todoActions.loadTodos()),
-}])
+const wrap = compose(
+  prefetch(() => todoActions.loadTodos()),
 
-@connect(select({
-  todos: todosByDate,
-  editable: isEditable,
-}), todoActions)
+  connect(select({
+    todos: todosByDate,
+    editable: isEditable,
+  }), todoActions)
+);
 
-export default class Todos extends React.Component {
+export class Todos extends React.Component {
   static propTypes = {
     todos: PropTypes.array.isRequired,
     editTodo: PropTypes.func.isRequired,
@@ -47,3 +48,5 @@ export default class Todos extends React.Component {
     );
   }
 }
+
+export default wrap(Todos);
