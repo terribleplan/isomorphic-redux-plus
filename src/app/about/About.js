@@ -3,6 +3,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { prefetch } from '@isogon/prefetch';
 import { createStructuredSelector as select } from 'reselect';
+import { MdPhoto } from 'react-icons/lib/md';
 
 import {
   Button,
@@ -54,8 +55,8 @@ export class About extends React.Component {
             {showKitten && <img src={kitten} alt="kitten" />}
           </CardContent>
           <CardActions>
-            <Button onClick={toggleKitten}>
-              {showKitten ? 'No! Take it away!' : 'Yes! Please!'}
+            <Button onClick={toggleKitten} fab accent ripple>
+              Yes Please
             </Button>
           </CardActions>
         </Card>
