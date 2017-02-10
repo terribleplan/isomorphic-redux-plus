@@ -14,29 +14,23 @@ import config from '../config';
 const client = createApi(config.apiBaseUrl);
 
 import configureStore from 'helpers/configureStore';
-import { ReduxAsyncConnect } from 'redux-connect';
+import { Prefetcher } from '@isogon/prefetch';
 
 const store = configureStore(
-  { client }, window.__PRELOADED_STATE__  // eslint-disable-line no-underscore-dangle
+  { client },
+  window.__PRELOADED_STATE__,  // eslint-disable-line no-underscore-dangle
 );
 const routes = injectStoreAndGetRoutes(store);
-const history = syncHistoryWithStore(browserHistory, store, {
-  selectLocationState: (state) => state.get('routing').toObject(),
-});
-
-const reloadOnPropsChange = (props, nextProps) =>
-  props.location.pathname !== nextProps.location.pathname;
+const history = syncHistoryWithStore(
+  browserHistory,
+  store,
+  { selectLocationState: (state) => state.get('routing').toObject() }
+);
 
 render(
   <Provider store={store}>
     <Router
-      render={(props) =>
-        <ReduxAsyncConnect
-          {...props}
-          reloadOnPropsChange={reloadOnPropsChange}
-          helpers={{ client }}
-        />
-      }
+      render={(props) => <Prefetcher {...props} prefetchedOnServer />}
       history={history}
       children={routes}
     />

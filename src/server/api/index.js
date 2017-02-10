@@ -26,7 +26,7 @@ router.get('/about', (req, res) => {
 router.get('/todos', (req, res) => {
   // Uncomment one of these to see error handling system at work
   // return res.sendStatus(500);
-  // return res.sendStatus(404);
+  // res.sendStatus(404);
   res.json(todos);
 });
 

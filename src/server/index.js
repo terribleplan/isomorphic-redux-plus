@@ -15,7 +15,7 @@ import injectStoreAndGetRoutes from 'routes';
 import apiRouter from './api';
 import config from '../config';
 import Html from './Html';
-import { ReduxAsyncConnect, loadOnServer } from 'redux-connect';
+import { Prefetcher, prefetchData } from '@isogon/prefetch';
 
 const app = express();
 
@@ -69,10 +69,10 @@ app.use((req, res) => {
       return res.status(404).end('Not found');
     }
 
-    loadOnServer({ ...renderProps, store, helpers: { client } }).then(() => {
+    prefetchData({ ...renderProps, store, helpers: { client } }).then(() => {
       const view = renderToString(
         <Provider store={store} key="provider">
-          <ReduxAsyncConnect {...renderProps} />
+          <Prefetcher {...renderProps} prefetchedOnServer />
         </Provider>
       );
       const state = store.getState();

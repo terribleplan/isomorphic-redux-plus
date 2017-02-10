@@ -3,15 +3,18 @@ import {
   applyMiddleware,
   compose,
 } from 'redux';
-import thunk from 'redux-thunk';
+import promiseMiddleware from 'redux-promise';
 import { fromJS } from 'immutable';
+import inject from '@isogon/inject';
 
-import createInjectMiddleware from 'lib/promiseMiddleware';
 import reducer from 'reducer';
 
 export default function configureStore(injections, preloadedState = {}) {
   const middleware = [
-    applyMiddleware(createInjectMiddleware(injections), thunk),
+    applyMiddleware(
+      inject(injections),
+      promiseMiddleware,
+    ),
   ];
 
   if (typeof window !== 'undefined' && window.devToolsExtension) {

@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { asyncConnect } from 'redux-connect';
+import { prefetch } from '@isogon/prefetch';
 import { createStructuredSelector as select } from 'reselect';
 
 import {
@@ -20,9 +20,9 @@ import { getAbout, getShowKitten } from './selectors';
 
 
 const wrap = compose(
-  asyncConnect([{
-    promise: ({ store: { dispatch } }) => dispatch(aboutActions.loadAbout()),
-  }]),
+  prefetch(() =>
+    aboutActions.loadAbout()
+  ),
 
   connect(select({
     about: getAbout,
