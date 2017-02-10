@@ -80,6 +80,7 @@
   "author": "Milo Mordaunt <milomord@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@isogon/inject": "^0.0.11",
     "@isogon/prefetch": "^0.1.0",
     "axios": "^0.15.3",
     "babel-core": "^6.21.0",

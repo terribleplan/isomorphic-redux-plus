@@ -5,15 +5,14 @@ import {
 } from 'redux';
 import promiseMiddleware from 'redux-promise';
 import { fromJS } from 'immutable';
-
-import injectMiddleware from 'lib/injectMiddleware';
+import inject from '@isogon/inject';
 
 import reducer from 'reducer';
 
 export default function configureStore(injections, preloadedState = {}) {
   const middleware = [
     applyMiddleware(
-      injectMiddleware(injections),
+      inject(injections),
       promiseMiddleware,
     ),
   ];
