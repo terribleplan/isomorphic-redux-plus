@@ -20,11 +20,11 @@ describe('Api Configuration', () => {
       });
 
       it('should not transform the response', () => {
-        expect(transformed).to.deep.equal(expected);
+        expect(transformed).toEqual(expected);
       });
 
       it('should not return a new object', () => {
-        expect(transformed).to.equal(config);
+        expect(transformed).toBe(config);
       });
     });
 
@@ -36,18 +36,18 @@ describe('Api Configuration', () => {
       });
 
       it('should add prepend the configured base url', () => {
-        expect(transformed.url).to.equal(testApiBaseUrl + url);
+        expect(transformed.url).toEqual(testApiBaseUrl + url);
       });
 
       it('should concat injected headers with request headers', () => {
-        expect(transformed.headers).to.deep.equal({
+        expect(transformed.headers).toEqual({
           ...config.headers,
           ...testRequestConfig.headers,
         });
       });
 
       it('should not mutate config', () => {
-        expect(transformed).to.not.equal(config);
+        expect(transformed).not.toBe(config);
       });
     });
   });
@@ -55,7 +55,7 @@ describe('Api Configuration', () => {
   describe('transform Response', () => {
     it('should pull off data', () => {
       const data = Math.random();
-      expect(transformResponse({ data })).to.equal(data);
+      expect(transformResponse({ data })).toEqual(data);
     });
   });
 });
