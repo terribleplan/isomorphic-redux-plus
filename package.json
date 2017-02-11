@@ -20,6 +20,8 @@
     "lint:test": "eslint tests",
     "test": "yarn test:unit && yarn test:http",
     "test:unit": "better-npm-run test:unit",
+    "test:coverage": "better-npm-run test:coverage",
+    "test:watch": "better-npm-run test:watch",
     "test:http": "better-npm-run test:http"
   },
   "betterScripts": {
@@ -59,8 +61,14 @@
         "NODE_ENV": "test"
       }
     },
-    "test:unit:coverage": {
+    "test:coverage": {
       "command": "cross-env jest --coverage",
+      "env": {
+        "NODE_ENV": "test"
+      }
+    },
+    "test:watch": {
+      "command": "cross-env jest --watch",
       "env": {
         "NODE_ENV": "test"
       }
@@ -77,6 +85,7 @@
   "jest": {
     "collectCoverageFrom": [
       "src/app/**/*.{js,jsx}",
+      "!src/app/styled/**",
       "!src/app/App.js",
       "!src/app/routes.js",
       "!src/app/reducer.js"
