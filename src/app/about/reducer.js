@@ -6,7 +6,7 @@ import {
   TOGGLE_KITTEN,
 } from './types';
 
-const defaultState = fromJS({
+export const defaultState = fromJS({
   text: '',
   showKitten: false,
 });

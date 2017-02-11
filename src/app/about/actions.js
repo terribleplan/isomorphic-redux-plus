@@ -6,11 +6,12 @@ import {
   TOGGLE_KITTEN,
 } from './types';
 
-export const loadAbout = () => ({ client, store }) => ({
-  type: LOAD_ABOUT,
-  payload: client.get('/about').catch((err) => {
+
+export const loadAboutAction = createAction(LOAD_ABOUT);
+export const toggleKitten = createAction(TOGGLE_KITTEN);
+
+export const loadAbout = () => ({ client, store }) => loadAboutAction(
+  client.get('/about').catch((err) => {
     store.dispatch(setStatus(err.response.status));
   }),
-});
-
-export const toggleKitten = createAction(TOGGLE_KITTEN);
+);

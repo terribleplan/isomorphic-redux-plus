@@ -1,3 +1,1 @@
-import About from './About';
-
-export { About };
+export About from './About';

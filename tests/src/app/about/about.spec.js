@@ -4,18 +4,15 @@ import { shallow } from 'enzyme';
 import { About } from 'about/About';
 import { Button } from 'styled';
 
-
-const renderComponent = (props) => {
-  const baseProps = {
-    showKitten: true,
-    toggleKitten: jest.fn(),
-    about: 'about',
-  };
-
-  return shallow(
-    <About {...baseProps} {...props} />
-  );
+const baseProps = {
+  showKitten: true,
+  toggleKitten: jest.fn(),
+  about: 'about',
 };
+
+const renderComponent = (props) => shallow(
+  <About {...baseProps} {...props} />
+);
 
 describe('<About />', () => {
   describe('when [prop] showKitten is true', () => {

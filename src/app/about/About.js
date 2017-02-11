@@ -15,20 +15,8 @@ import {
 } from 'styled';
 
 import kitten from './kitten.jpg';
-import * as aboutActions from './actions';
+import { toggleKitten, loadAbout } from './actions';
 import { getAbout, getShowKitten } from './selectors';
-
-
-const wrap = compose(
-  prefetch(() =>
-    aboutActions.loadAbout()
-  ),
-
-  connect(select({
-    about: getAbout,
-    showKitten: getShowKitten,
-  }), aboutActions)
-);
 
 // eslint-disable-next-line react/prefer-stateless-function
 export class About extends React.Component {
@@ -39,23 +27,23 @@ export class About extends React.Component {
   };
 
   render() {
-    const { showKitten, toggleKitten } = this.props;
+    const props = this.props;
     return (
       <CardList>
         <Card>
           <CardTitle>About this project:</CardTitle>
           <CardContent>
-            {renderMarkdown(this.props.about)}
+            {renderMarkdown(props.about)}
           </CardContent>
         </Card>
         <Card>
           <CardContent>
             <h4>Psst! Would you like to see a kittenss?</h4>
-            {showKitten && <img src={kitten} alt="kitten" />}
+            {props.showKitten && <img src={kitten} alt="kitten" />}
           </CardContent>
           <CardActions>
-            <Button onClick={toggleKitten}>
-              {showKitten ? 'No! Take it away!' : 'Yes! Please!'}
+            <Button onClick={props.toggleKitten}>
+              {props.showKitten ? 'No! Take it away!' : 'Yes! Please!'}
             </Button>
           </CardActions>
         </Card>
@@ -64,4 +52,10 @@ export class About extends React.Component {
   }
 }
 
-export default wrap(About);
+export default compose(
+  prefetch(loadAbout),
+  connect(select({
+    about: getAbout,
+    showKitten: getShowKitten,
+  }), { toggleKitten })
+)(About);
