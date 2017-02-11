@@ -1,6 +1,8 @@
 import 'babel-polyfill';
 import { isFSA } from 'flux-standard-action';
 
+import 'jest-enzyme';
+
 // our own custom matchers
 const matchers = {
   toBeAnFSA() {
@@ -19,6 +21,16 @@ const matchers = {
         return {
           pass: actual.type === expected,
           message: `Expected ${JSON.stringify(actual.type)} to be ${expected}`,
+        };
+      },
+    };
+  },
+  toHaveChild() {
+    return {
+      compare(actual, expected) {
+        return {
+          pass: actual.find(expected).length > 0,
+          message: `Expected actual to have child ${expected}`,
         };
       },
     };

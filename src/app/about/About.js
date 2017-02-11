@@ -1,22 +1,25 @@
 import React, { PropTypes } from 'react';
+import styled from 'styled-components';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { prefetch } from '@isogon/prefetch';
 import { createStructuredSelector as select } from 'reselect';
 
 import {
-  Button,
   Card,
-  CardActions,
   CardContent,
   CardList,
   CardTitle,
-  renderMarkdown,
+  Markdown,
 } from 'styled';
 
-import kitten from './kitten.jpg';
+import KittenCard from './KittenCard';
 import { toggleKitten, loadAbout } from './actions';
 import { getAbout, getShowKitten } from './selectors';
+
+const CardRow = styled(CardList)`
+  flex-wrap: nowrap;
+`;
 
 // eslint-disable-next-line react/prefer-stateless-function
 export class About extends React.Component {
@@ -29,25 +32,18 @@ export class About extends React.Component {
   render() {
     const props = this.props;
     return (
-      <CardList>
+      <CardRow>
         <Card>
           <CardTitle>About this project:</CardTitle>
           <CardContent>
-            {renderMarkdown(props.about)}
+            <Markdown text={props.about} />
           </CardContent>
         </Card>
-        <Card>
-          <CardContent>
-            <h4>Psst! Would you like to see a kittenss?</h4>
-            {props.showKitten && <img src={kitten} alt="kitten" />}
-          </CardContent>
-          <CardActions>
-            <Button onClick={props.toggleKitten}>
-              {props.showKitten ? 'No! Take it away!' : 'Yes! Please!'}
-            </Button>
-          </CardActions>
-        </Card>
-      </CardList>
+        <KittenCard
+          onKittenToggle={props.toggleKitten}
+          showKitten={props.showKitten}
+        />
+      </CardRow>
     );
   }
 }

@@ -55,6 +55,10 @@ mtrc.configure({
   codespan: styled.span``,
 });
 
-const rednerMarkdown = (markdown) => mtrc(markdown).tree;
+export default function Markdown({ text }) {
+  return <article>{mtrc(text).tree}</article>;
+}
 
-export default rednerMarkdown;
+Markdown.propTypes = {
+  text: React.PropTypes.string,
+};
