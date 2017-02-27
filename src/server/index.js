@@ -19,8 +19,7 @@ import { Prefetcher, prefetchData } from '@isogon/prefetch';
 
 const app = express();
 
-app.use(favicon(path.join(__dirname, '../../static/favicon.ico')));
-
+app.use(favicon(path.join(config.staticDir, 'favicon.ico')));
 app.use(express.static(config.staticDir, { maxAge: '7 days' }));
 app.use(express.static(config.distDir));
 
