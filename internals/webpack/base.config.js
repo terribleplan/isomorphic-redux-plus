@@ -5,8 +5,8 @@ const WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
 const { url_loader_parser } = WebpackIsomorphicToolsPlugin;
 const host = (process.env.HOST || 'localhost');
 const port = (+process.env.PORT + 1) || 3001;
-const context = path.resolve(__dirname, '../..');
-const assetsPath = path.resolve(__dirname, '../../src/server/static/dist');
+const context = path.resolve(__dirname, '../../');
+const assetsPath = path.resolve(__dirname, '../../dist');
 const rootPath = path.resolve(__dirname, '../../');
 const hmr = `webpack-hot-middleware/client?path=http://${host}:${port}/__webpack_hmr`;
 const entry = './src/client/index.js';
@@ -22,6 +22,7 @@ babelrc.env.development.plugins.find((p) =>
 const babelLoaderQuery = JSON.stringify(babelrc);
 
 const webpackIsomorphicConfig = {
+  webpack_assets_file_path: 'dist/webpack-assets.json',
   assets: {
     images: {
       extensions: ['jpeg', 'jpg', 'png', 'gif'],

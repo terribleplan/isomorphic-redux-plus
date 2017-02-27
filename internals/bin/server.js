@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 /* eslint-disable no-underscore-dangle, global-require, no-console */
-
 const fs = require('fs');
 const babelrc = fs.readFileSync('./.babelrc');
 let babelConfig;
@@ -16,7 +15,7 @@ try {
 require('babel-register')(babelConfig);
 
 const path = require('path');
-const rootDir = path.resolve(__dirname, '../..');
+const rootDir = path.resolve(__dirname, '../../');
 
 /**
  * Define isomorphic constants.

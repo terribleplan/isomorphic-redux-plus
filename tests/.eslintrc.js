@@ -15,5 +15,9 @@ module.exports = {
     loadTested: true,
     sinon: true,
     request: true,
+    createRandomString: true,
+    createRandomDate: true,
+    createRandom: true,
+    renderRoute: true,
   },
 };

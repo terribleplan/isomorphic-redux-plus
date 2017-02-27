@@ -8,8 +8,8 @@ import { Provider } from 'react-redux';
 import path from 'path';
 import favicon from 'serve-favicon';
 
-import configureStore from 'helpers/configureStore';
-import createApi from 'helpers/apiClient';
+import configureStore from '../helpers/store';
+import createApiClient from '../helpers/api';
 import { getPageStatus } from 'status/selectors';
 import injectStoreAndGetRoutes from 'routes';
 import apiRouter from './api';
@@ -19,9 +19,10 @@ import { Prefetcher, prefetchData } from '@isogon/prefetch';
 
 const app = express();
 
-app.use(favicon(path.join(__dirname, './static/favicon.ico')));
+app.use(favicon(path.join(__dirname, '../../static/favicon.ico')));
 
-app.use(express.static(path.join(__dirname, './static'), { maxAge: '7 days' }));
+app.use(express.static(config.staticDir, { maxAge: '7 days' }));
+app.use(express.static(config.distDir));
 
 app.use(session({
   secret: config.session.secret,
@@ -51,7 +52,7 @@ app.use((req, res) => {
   res.contentType('text/html');
 
   const apiPrefix = `http://${config.host}:${config.port}${config.apiBaseUrl}`;
-  const client = createApi(apiPrefix, req);
+  const client = createApiClient(apiPrefix, req);
   const store = configureStore({ client });
   const routes = injectStoreAndGetRoutes(store);
 

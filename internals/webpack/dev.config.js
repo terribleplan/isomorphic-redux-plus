@@ -11,7 +11,7 @@ module.exports = {
     path: config.assetsPath,
     filename: '[name]-[hash].js',
     chunkFilename: '[name]-[chunkhash].js',
-    publicPath: `http://${config.host}:${config.port}/dist/`,
+    publicPath: `http://${config.host}:${config.port}/`,
   },
   module: {
     loaders: [

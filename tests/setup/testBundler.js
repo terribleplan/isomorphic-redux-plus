@@ -2,6 +2,8 @@ import 'babel-polyfill';
 import { isFSA } from 'flux-standard-action';
 
 import 'jest-enzyme';
+import './testGlobals';
+import './renderRoute';
 
 // our own custom matchers
 const matchers = {

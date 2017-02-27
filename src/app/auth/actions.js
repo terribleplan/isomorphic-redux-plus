@@ -7,7 +7,7 @@ export const loadAuth = () => ({ client }) => ({
 
 export const logout = () => ({ client }) => ({
   type: LOGOUT,
-  payload: client.get('/logout'),
+  payload: client.post('/logout'),
 });
 
 export const login = (payload) => ({ client }) => ({

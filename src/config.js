@@ -1,4 +1,5 @@
 require('babel-polyfill');
+const path = require('path');
 
 const environment = {
   development: {
@@ -10,6 +11,8 @@ const environment = {
 }[process.env.NODE_ENV || 'development'];
 
 module.exports = Object.assign({
+  staticDir: path.join(__dirname, '../static'),
+  distDir: path.join(__dirname, '../dist'),
   host: process.env.HOST || 'localhost',
   port: process.env.PORT || 3000,
   apiHost: process.env.APIHOST || 'localhost',

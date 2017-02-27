@@ -18,15 +18,13 @@
     "lint:client": "eslint src/client",
     "lint:server": "eslint src/server --ignore-pattern 'src/server/static'",
     "lint:test": "eslint tests",
-    "test": "yarn test:unit && yarn test:http",
-    "test:unit": "better-npm-run test:unit",
+    "test": "better-npm-run test",
     "test:coverage": "better-npm-run test:coverage",
-    "test:watch": "better-npm-run test:watch",
-    "test:http": "better-npm-run test:http"
+    "test:watch": "better-npm-run test:watch"
   },
   "betterScripts": {
     "start-prod": {
-      "command": "node internals/bin/server.js",
+      "command": "internals/bin/server.js",
       "env": {
         "NODE_PATH": "./src/app",
         "NODE_ENV": "production",
@@ -34,7 +32,7 @@
       }
     },
     "start-dev": {
-      "command": "node internals/bin/server.js",
+      "command": "internals/bin/server.js",
       "env": {
         "NODE_PATH": "./src/app",
         "NODE_ENV": "development",
@@ -42,7 +40,7 @@
       }
     },
     "watch-client": {
-      "command": "node internals/bin/webpack-dev-server.js",
+      "command": "internals/bin/webpack-dev-server.js",
       "env": {
         "UV_THREADPOOL_SIZE": 100,
         "NODE_PATH": "./src/app",
@@ -55,7 +53,7 @@
         "NODE_ENV": "production"
       }
     },
-    "test:unit": {
+    "test": {
       "command": "cross-env jest",
       "env": {
         "NODE_ENV": "test"
@@ -72,19 +70,12 @@
       "env": {
         "NODE_ENV": "test"
       }
-    },
-    "test:http": {
-      "command": "mocha --require internals/bin/server.js --require babel-register --require internals/test/http.conf.js tests/**/*.http.js",
-      "env": {
-        "PORT": 3000,
-        "NODE_ENV": "test",
-        "NODE_PATH": "./src/app"
-      }
     }
   },
   "jest": {
     "collectCoverageFrom": [
-      "src/app/**/*.{js,jsx}",
+      "src/app/**/*.js",
+      "!src/app/helpers/configureStore.js",
       "!src/app/styled/**",
       "!src/app/App.js",
       "!src/app/routes.js",
@@ -100,13 +91,14 @@
     },
     "moduleDirectories": [
       "node_modules",
-      "src/app"
+      "src/app",
+      "src"
     ],
     "moduleNameMapper": {
       ".*\\.(css|less|styl|scss|sass)$": "<rootDir>/tests/mocks/cssModule.js",
       ".*\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/tests/mocks/image.js"
     },
-    "setupTestFrameworkScriptFile": "<rootDir>/internals/test/test-bundler.js",
+    "setupTestFrameworkScriptFile": "<rootDir>/tests/setup/testBundler.js",
     "testRegex": "tests/src/.*\\.spec\\.js$"
   },
   "author": "Milo Mordaunt <milomord@gmail.com>",
@@ -115,6 +107,7 @@
     "@isogon/inject": "^0.0.11",
     "@isogon/prefetch": "^0.1.0",
     "axios": "^0.15.3",
+    "axios-mock-adapter": "^1.7.1",
     "babel-core": "^6.21.0",
     "better-npm-run": "^0.0.13",
     "bluebird": "^3.4.7",

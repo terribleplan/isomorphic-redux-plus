@@ -1,28 +1,12 @@
-import {
-  createStore,
-  applyMiddleware,
-  compose,
-} from 'redux';
-import promiseMiddleware from 'redux-promise';
+import { createStore, compose } from 'redux';
 import { fromJS } from 'immutable';
-import inject from '@isogon/inject';
 
 import reducer from 'reducer';
+import initMiddlewares from './middlewares';
 
 export default function configureStore(injections, preloadedState = {}) {
-  const middleware = [
-    applyMiddleware(
-      inject(injections),
-      promiseMiddleware,
-    ),
-  ];
-
-  if (typeof window !== 'undefined' && window.devToolsExtension) {
-    middleware.push(window.devToolsExtension());
-  }
-
+  const middleware = initMiddlewares(injections);
   const finalCreateStore = compose(...middleware)(createStore);
-
   const store = finalCreateStore(reducer, fromJS(preloadedState));
 
   if (module.hot) {
